@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Encryption and Decryption</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .container {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      label {
+        font-weight: bold;
+      }
+      input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        margin-bottom: 20px;
+        box-sizing: border-box;
+      }
+      select {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        margin-bottom: 20px;
+        box-sizing: border-box;
+      }
+      button {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Encryption and Decryption</h2>
+      <form action="/process" method="post">
+        <label for="action">Select action:</label>
+        <select id="action" name="action">
+          <option value="encrypt">Encrypt</option>
+          <option value="decrypt">Decrypt</option>
+        </select>
+        <label for="user_input">Enter text:</label>
+        <input type="text" id="user_input" name="user_input" required />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </body>
+</html>
