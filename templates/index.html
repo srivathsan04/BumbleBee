@@ -97,5 +97,51 @@
         </div>
       </div>
     </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        document
+          .getElementById("person1-form")
+          .addEventListener("submit", function (event) {
+            event.preventDefault();
+            sendMessage("person1");
+          });
+
+        document
+          .getElementById("person2-form")
+          .addEventListener("submit", function (event) {
+            event.preventDefault();
+            sendMessage("person2");
+          });
+      });
+
+      function sendMessage(sender) {
+        var message = document.getElementById(sender + "-input").value.trim();
+        if (message === "") return;
+
+        var chatBox = document.getElementById(sender + "-chat-box");
+        var newMessage = document.createElement("div");
+        newMessage.classList.add("message", "sent");
+        newMessage.textContent = message;
+        chatBox.appendChild(newMessage);
+
+        // Clear input
+        document.getElementById(sender + "-input").value = "";
+
+        // Scroll to bottom
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        // Send the message to the other person
+        var receiver = sender === "person1" ? "person2" : "person1";
+        var receivedMessage = document.createElement("div");
+        receivedMessage.classList.add("message", "received");
+        receivedMessage.textContent = message;
+        document
+          .getElementById(receiver + "-chat-box")
+          .appendChild(receivedMessage);
+        document.getElementById(receiver + "-chat-box").scrollTop =
+          chatBox.scrollHeight;
+      }
+    </script>
   </body>
 </html>
