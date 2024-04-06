@@ -3,63 +3,99 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Encryption and Decryption</title>
+    <title>Chat App</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <style>
       body {
-        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
       }
+
       .container {
-        max-width: 500px;
-        margin: 0 auto;
+        margin-top: 50px;
+      }
+
+      .row {
+        display: grid;
+        grid-template-columns: auto auto;
+        grid-gap: 20px;
+      }
+
+      .person {
+        background-color: #fff;
         padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
+        border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+        max-height: 400px;
       }
-      label {
+
+      .message {
+        margin-bottom: 10px;
+        word-wrap: break-word;
+        max-width: 70%;
+        padding: 10px;
+        border-radius: 20px;
+        clear: both;
+      }
+
+      .message.sent {
+        float: left;
+        background-color: #add8e6;
+      }
+
+      .message.received {
+        float: right;
+        background-color: #90ee90;
+      }
+
+      .person-header {
         font-weight: bold;
+        margin-bottom: 10px;
       }
-      input[type="text"] {
-        width: 100%;
-        padding: 8px;
-        margin-top: 5px;
-        margin-bottom: 20px;
-        box-sizing: border-box;
-      }
-      select {
-        width: 100%;
-        padding: 8px;
-        margin-top: 5px;
-        margin-bottom: 20px;
-        box-sizing: border-box;
-      }
-      button {
-        background-color: #4caf50;
-        color: white;
-        padding: 10px 20px;
-        border: none;
+
+      textarea {
+        height: 100px;
+        resize: none;
         border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-      }
-      button:hover {
-        background-color: #45a049;
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <h2>Encryption and Decryption</h2>
-      <form action="/process" method="post">
-        <label for="action">Select action:</label>
-        <select id="action" name="action">
-          <option value="encrypt">Encrypt</option>
-          <option value="decrypt">Decrypt</option>
-        </select>
-        <label for="user_input">Enter text:</label>
-        <input type="text" id="user_input" name="user_input" required />
-        <button type="submit">Submit</button>
-      </form>
+      <div class="row">
+        <div class="col">
+          <div class="person person1">
+            <div class="person-header">Person 1</div>
+            <div class="person-body" id="person1-chat-box"></div>
+            <form id="person1-form">
+              <textarea
+                class="form-control"
+                id="person1-input"
+                placeholder="Type a message..."
+              ></textarea>
+              <button type="submit" class="btn btn-primary mt-2">Send</button>
+            </form>
+          </div>
+        </div>
+        <div class="col">
+          <div class="person person2">
+            <div class="person-header">Person 2</div>
+            <div class="person-body" id="person2-chat-box"></div>
+            <form id="person2-form">
+              <textarea
+                class="form-control"
+                id="person2-input"
+                placeholder="Type a message..."
+              ></textarea>
+              <button type="submit" class="btn btn-primary mt-2">Send</button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>
