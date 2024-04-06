@@ -43,12 +43,12 @@
       }
 
       .message.sent {
-        float: left;
+        float: right;
         background-color: #add8e6;
       }
 
       .message.received {
-        float: right;
+        float: left;
         background-color: #90ee90;
       }
 
@@ -98,26 +98,56 @@
       </div>
     </div>
 
+    <div class="container" id="disp"></div>
+
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         document
           .getElementById("person1-form")
-          .addEventListener("submit", function (event) {
+          .addEventListener("submit", async function (event) {
             event.preventDefault();
-            sendMessage("person1");
+            await sendMessage("person1");
           });
 
         document
           .getElementById("person2-form")
-          .addEventListener("submit", function (event) {
+          .addEventListener("submit", async function (event) {
             event.preventDefault();
             sendMessage("person2");
           });
       });
 
-      function sendMessage(sender) {
+      async function sendMessage(sender) {
         var message = document.getElementById(sender + "-input").value.trim();
         if (message === "") return;
+
+        const response = await fetch("http://127.0.0.1:8000/chat/encryption/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            sender: sender,
+            message: message,
+          }),
+        });
+
+        let msg = await response.json();
+        msg = JSON.parse(msg);
+        var decimal_key = msg["msg"]["decimal_key"];
+        var cipher_text = msg["msg"]["cipher_text"];
+        var Decrypted = msg["msg"]["Decrypted"];
+        console.log(decimal_key, cipher_text, Decrypted);
+
+        document.getElementById(
+          "disp"
+        ).innerHTML = `<p>Decimal Key: ${decimal_key}</p>`;
+        document.getElementById(
+          "disp"
+        ).innerHTML += `<p>Cipher Text: ${cipher_text}</p>`;
+        document.getElementById(
+          "disp"
+        ).innerHTML += `<p>Decrypted: ${Decrypted}</p>`;
 
         var chatBox = document.getElementById(sender + "-chat-box");
         var newMessage = document.createElement("div");
