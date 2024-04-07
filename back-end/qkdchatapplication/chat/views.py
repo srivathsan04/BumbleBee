@@ -155,10 +155,18 @@ class MsgEncryption(APIView):
 
         # Checking whether the sample matches from both Alice and Bob's side
 
-        if bob_sample != alice_sample:
-            print("Eve's interference was detected.")
-        else:
-            print("Eve went undetected!")
+        def check_interference(bob_sample, alice_sample):
+            if bob_sample != alice_sample:
+                return "Eve's interference was detected."
+            else:
+                return "Eve went undetected!"
+
+
+
+        eve_detection = check_interference(bob_sample, alice_sample)
+        print(eve_detection)
+            
+        
 
         bob_key = remove_garbage(alice_bases, bob_bases, bob_results)
 
@@ -208,16 +216,22 @@ class MsgEncryption(APIView):
 
         response = {
           "eves_bases": str(type(eve_bases)),
+          "eve_detection": str(type(eve_detection)),
           "bit_selection": str(type(bit_selection)),
           "decimal_key": str(type(bob_key_dec)),
           "cipher_text": str(type(ciphertext)),
           "Decrypted": str(type(decrypted)),
+          
+          
         }
 
         res = {
+            "eve_detection": str(eve_detection),
             "decimal_key": str(bob_key_dec),
           "cipher_text": str(ciphertext),
           "Decrypted": str(decrypted),
+          
+          
         }
         return Response(json.dumps({"msg": res}),status = status.HTTP_200_OK)
 
