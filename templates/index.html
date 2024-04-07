@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chat App</title>
-    <!-- Bootstrap CSS -->
+
     <link
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
       rel="stylesheet"
@@ -25,12 +25,17 @@
       }
 
       .person {
-        background-color: #fff;
+        background-color: #ffffff;
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         overflow-y: auto;
         max-height: 400px;
+      }
+
+      #disp {
+        border: 1px solid black;
+        padding: 10px;
       }
 
       .message {
@@ -44,12 +49,14 @@
 
       .message.sent {
         float: right;
-        background-color: #add8e6;
+        background-color: #90ee90;
+        clear: both; /* Clear the float */
       }
 
       .message.received {
         float: left;
-        background-color: #90ee90;
+        background-color: #add8e6;
+        clear: both; /* Clear the float */
       }
 
       .person-header {
@@ -65,19 +72,27 @@
     </style>
   </head>
   <body>
+    <nav class="navbar navbar-transparent bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#" style="color: black"> BumbleBee </a>
+      </div>
+    </nav>
+
     <div class="container">
       <div class="row">
         <div class="col">
           <div class="person person1">
             <div class="person-header">Person 1</div>
             <div class="person-body" id="person1-chat-box"></div>
+
             <form id="person1-form">
               <textarea
                 class="form-control"
                 id="person1-input"
                 placeholder="Type a message..."
               ></textarea>
-              <button type="submit" class="btn btn-primary mt-2">Send</button>
+
+              <button type="submit" class="btn btn-warning mt-2">Send</button>
             </form>
           </div>
         </div>
@@ -91,14 +106,14 @@
                 id="person2-input"
                 placeholder="Type a message..."
               ></textarea>
-              <button type="submit" class="btn btn-primary mt-2">Send</button>
+              <button type="submit" class="btn btn-warning mt-2">Send</button>
             </form>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="container" id="disp"></div>
+    <div class="container" id="disp" style="display: none"></div>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
@@ -107,6 +122,7 @@
           .addEventListener("submit", async function (event) {
             event.preventDefault();
             await sendMessage("person1");
+            document.getElementById("disp").style.display = "block"; // Show the container div
           });
 
         document
@@ -114,6 +130,7 @@
           .addEventListener("submit", async function (event) {
             event.preventDefault();
             sendMessage("person2");
+            document.getElementById("disp").style.display = "block"; // Show the container div
           });
       });
 
@@ -134,14 +151,20 @@
 
         let msg = await response.json();
         msg = JSON.parse(msg);
+
+        var eve_detection = msg["msg"]["eve_detection"];
         var decimal_key = msg["msg"]["decimal_key"];
         var cipher_text = msg["msg"]["cipher_text"];
         var Decrypted = msg["msg"]["Decrypted"];
-        console.log(decimal_key, cipher_text, Decrypted);
+        console.log(eve_detection, decimal_key, cipher_text, Decrypted);
 
         document.getElementById(
           "disp"
-        ).innerHTML = `<p>Decimal Key: ${decimal_key}</p>`;
+        ).innerHTML = `<p>Eve's Detection: ${eve_detection}</p>`;
+
+        document.getElementById(
+          "disp"
+        ).innerHTML += `<p>Decimal Key: ${decimal_key}</p>`;
         document.getElementById(
           "disp"
         ).innerHTML += `<p>Cipher Text: ${cipher_text}</p>`;
